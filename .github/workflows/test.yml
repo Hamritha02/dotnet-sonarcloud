@@ -34,6 +34,10 @@ jobs:
     - name: Install dotnet-sonarscanner tool
       run: dotnet tool install --global dotnet-sonarscanner
       
+    - name: Install MSBuild tool
+      run: dotnet tool install --global MSBuild.Sdk.Extras
+      # Add additional steps as required for your workflow 
+      
     - name: SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
