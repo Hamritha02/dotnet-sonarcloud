@@ -30,14 +30,9 @@ jobs:
 
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
-    - name: Install SonarCloud scanner
-        #if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: pwsh
-        # The --version argument is optional. If it is omitted the latest version will be installed.
-      run: |
-        New-Item -Path .\.sonar\scanner -ItemType Directory
-        dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner 
+    
     - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
       #shell: powershell
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
