@@ -30,15 +30,10 @@ jobs:
 
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-       # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        sonar.organization: hamritha02-1  # Replace with your SonarCloud organization key
-        sonar.projectKey: hamritha02-1  # Replace with your SonarCloud project key
-        #authToken: ${{ secrets.SONAR_TOKEN }}
+     - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" && dotnet build --no-restore && dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
