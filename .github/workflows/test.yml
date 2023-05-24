@@ -36,6 +36,12 @@ jobs:
             #shell: powershell
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: my-custom-directory
+        args: >
+          -Dsonar.organization=hamritha02-1
+          -Dsonar.projectKey=my-Hamritha02_Assignment2
+          -Dsonar.host.url=https://sonarcloud.io
    #  shell: pwsh
     #  run: |
      #     .\.sonar\scanner\dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
