@@ -30,6 +30,10 @@ jobs:
 
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
+      
+    - name: Install dotnet-sonarscanner tool
+      run: dotnet tool install --global dotnet-sonarscanner
+      
     - name: SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
