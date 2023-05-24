@@ -30,23 +30,11 @@ jobs:
 
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
-   # - name: SonarCloud Scan
-   #   env:
-   #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-   #   run: dotnet sonarscanner begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" && dotnet build $BUILD_CONFIG && dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
-    - name: SonarScanner for .NET 7 with pull request decoration support
-      uses: highbyte/sonarscan-dotnet@v2.2.2
-      with:
-        # The key of the SonarQube project
-        sonarProjectKey: hamritha02-1
-        # The name of the SonarQube project
-        sonarProjectName:  Assignment
-        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-        sonarOrganization: hamritha02-1
-        # Optional command arguments to dotnet test
-       # dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-        # Optional extra command arguments the the SonarScanner 'begin' command
-       # sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+    - name: SonarCloud Scan
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" && dotnet build $BUILD_CONFIG && dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+    
            
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
