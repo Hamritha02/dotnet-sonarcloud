@@ -31,11 +31,11 @@ jobs:
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
     - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1
-        with:
-          organization: hamritha02-1  # Replace with your SonarCloud organization key
-          projectKey: hamritha02-1  # Replace with your SonarCloud project key
-          authToken: ${{ secrets.SONAR_TOKEN }}
+      uses: SonarSource/sonarcloud-github-action@v1
+      with:
+        organization: hamritha02-1  # Replace with your SonarCloud organization key
+        projectKey: hamritha02-1  # Replace with your SonarCloud project key
+        authToken: ${{ secrets.SONAR_TOKEN }}
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
