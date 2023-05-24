@@ -33,7 +33,7 @@ jobs:
     - name: SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: dotnet sonarscanner begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" && dotnet build --no-restore && dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+      run: dotnet sonarscanner begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" && dotnet build $SOLUTION && dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
