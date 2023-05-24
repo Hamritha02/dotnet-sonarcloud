@@ -37,7 +37,7 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: my-custom-directory
+        projectBaseDir: Solution1/UnitTest.sln
         args: >
           -Dsonar.organization=hamritha02-1
           -Dsonar.projectKey=my-Hamritha02_Assignment2
