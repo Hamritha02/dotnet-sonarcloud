@@ -30,19 +30,14 @@ jobs:
 
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
-      
-    - name: Install dotnet-sonarscanner tool
-      run: dotnet tool install --global dotnet-sonarscanner
-      
-   # - name: Install MSBuild tool
-     # run: dotnet tool install --global MSBuild.Sdk.Extras
-     
-      
+   
     - name: SonarCloud Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: dotnet SonarScanner.MSBuild.exe begin /k:"hamritha02-1" /o:"hamritha02-1" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" && MSBuild.exe $SOLUTION /t:Rebuild && dotnet SonarScanner.MSBuild.exe end /d:sonar.login="${{ env.SONAR_TOKEN }}"
-    
+      run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"SonarSource_sonarcloud-github-action-samples" /o:"sonarsource" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build Solution1/UnitTest.sln
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
            
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
