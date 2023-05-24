@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1
+      uses: SonarSource/sonarcloud-github-action@master
       with:
         organization: hamritha02-1  # Replace with your SonarCloud organization key
         projectKey: hamritha02-1  # Replace with your SonarCloud project key
