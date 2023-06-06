@@ -49,11 +49,12 @@ jobs:
     
     - name: Fetch result from Sonarcloud
       run: |
-           curl -u SONAR_TOKEN: \
-           "https://sonarcloud.io/api/project_analyses/search?project=Hamritha02_Assignment2&ps=1" \
-            -H "Accept: application/json"
-             jq -r '.' \
-             xmlstarlet fo > sonarcloud_report.xml          
+           #curl -u SONAR_TOKEN: \
+           #"https://sonarcloud.io/api/project_analyses/search?project=Hamritha02_Assignment2&ps=1" \
+            #-H "Accept: application/json"
+             #jq -r '.' \
+             #xmlstarlet fo > sonarcloud_report.xml 
+             pmd check -d src/xml-file.ext -f text -R ruleset.xml --force-language xml
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
