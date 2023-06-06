@@ -52,8 +52,8 @@ jobs:
            curl -u SONAR_TOKEN: \
            "https://sonarcloud.io/api/project_analyses/search?project=Hamritha02_Assignment2&ps=1" \
             -H "Accept: application/json"
-            | jq -r '.' \
-            | xmlstarlet fo > sonarcloud_report.xml          
+             jq -r '.' \
+             xmlstarlet fo > sonarcloud_report.xml          
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
