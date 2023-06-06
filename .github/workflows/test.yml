@@ -46,7 +46,7 @@ jobs:
       run: |
           dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build Solution1/UnitTest.sln
-          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          dotnet test --collect:"XPlat Code Coverage" --results-directory:"TestResults" --logger:"trx;LogFileName=test_results.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=coverage.xml
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     
     #- name: Fetch result from Sonarcloud
