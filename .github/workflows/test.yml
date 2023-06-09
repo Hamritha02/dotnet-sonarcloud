@@ -46,7 +46,7 @@ jobs:
       run: |
           dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build Solution1/UnitTest.sln
-          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          #dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     
     #- name: Fetch result from Sonarcloud
@@ -83,6 +83,20 @@ jobs:
        # JIRA_API_TOKEN: ${{ secrets.XRAY_TOKEN }}
       shell: bash 
       run: 'curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer ${{ steps.xray-token.outputs.XRAY_TOKEN }}"  --data @"/home/runner/work/dotnet-sonarcloud/dotnet-sonarcloud/Solution1/UnitTestProject/TestResults/test-results.xml"  https://xray.cloud.getxray.app/api/v1/import/execution/xunit?projectKey=PX'
+   
+    - name: Send mail
+      if: failure()
+      uses: dawidd6/action-send-mail@v2
+      with:
+        # mail server settings
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+        body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+        to: hamrithadaya@gmail.com
+        from: Hamritha
 
 
       
