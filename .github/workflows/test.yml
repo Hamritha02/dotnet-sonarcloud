@@ -44,7 +44,7 @@ jobs:
       #shell: pwsh
     #  run: sonar-scanner -Dsonar.organization=hamritha02-1 -Dsonar.projectKey=Hamritha02_Assignment2 -Dsonar.sources=src
       run: |
-          dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build ./Solution1/UnitTest.sln
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
