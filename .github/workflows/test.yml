@@ -51,10 +51,10 @@ jobs:
     
     - name: Sonarcloud coverage
       run: |
-       SonarScanner.MSBuild.exe begin /k:"<sonar-project-key>" /d:sonar.login="<sonar-token>" 
+       SonarScanner.MSBuild.exe begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
        dotnet build --no-incremental
-       dotnet test --collect "Code Coverage"
-       SonarScanner.MSBuild.exe end /d:sonar.login="<sonar-token>"
+       dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+       SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
        
     #- name: Fetch result from Sonarcloud
       #run: |
