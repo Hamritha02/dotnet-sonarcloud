@@ -79,7 +79,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: test-results
+        name: dotnet-test
         path: |
           **/test-results.xml
     - name: "Get Xray Token"
