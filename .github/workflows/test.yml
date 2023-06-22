@@ -97,13 +97,13 @@ jobs:
       #if: steps.push-to-xray.outcome == 'failure'
       env:
           SMTP_SERVER: smtp.gmail.com
-          SMTP_PORT: 587
+          SMTP_PORT: 465
           SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
           SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
      # with:
         # mail server settings
         #server_address: smtp.gmail.com
-        #server_port: 587
+        #server_port: 465
         #username: ${{ secrets.EMAIL_USERNAME }}
         #password: ${{ secrets.EMAIL_PASSWORD }}
         #subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
