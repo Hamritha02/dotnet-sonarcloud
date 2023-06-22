@@ -95,17 +95,22 @@ jobs:
       
     - name: Send mail
       #if: steps.push-to-xray.outcome == 'failure'
-      uses: dawidd6/action-send-mail@v3
-      with:
+      env:
+          SMTP_SERVER: smtp.gmail.com
+          SMTP_PORT: 587
+          SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+     # with:
         # mail server settings
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-        body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-        to: hamrithaanand02@gmail.com
-        from: Hamritha
-
+        #server_address: smtp.gmail.com
+        #server_port: 587
+        #username: ${{ secrets.EMAIL_USERNAME }}
+        #password: ${{ secrets.EMAIL_PASSWORD }}
+        #subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+        #body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+        #to: hamrithaanand02@gmail.com
+        #from: Hamritha
+      run: |
+          echo "Subject: Workflow failed" | sendmail -v -S $SMTP_SERVER -P $SMTP_PORT -xu $SMTP_USERNAME -xp $SMTP_PASSWORD hamrithaanand02@gmail.com
 
       
