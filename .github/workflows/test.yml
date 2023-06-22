@@ -91,19 +91,19 @@ jobs:
       shell: bash 
       run: 'curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer ${{ steps.xray-token.outputs.XRAY_TOKEN }}"  --data @"/home/runner/work/dotnet-sonarcloud/dotnet-sonarcloud/Solution1/UnitTestProject/TestResults/test-results.xml"  https://xray.cloud.getxray.app/api/v1/import/execution/xunit?projectKey=PX'
    
-    #- name: Send mail
-      #if: failure()
-      #uses: dawidd6/action-send-mail@v3
-      #with:
+    - name: Send mail
+      if: failure()
+      uses: dawidd6/action-send-mail@v3
+      with:
         # mail server settings
-        #server_address: smtp.gmail.com
-        #server_port: 465
-        #username: ${{ secrets.EMAIL_USERNAME }}
-        #password: ${{ secrets.EMAIL_PASSWORD }}
-        #subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-        #body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-        #to: hamrithadaya@gmail.com
-        #from: Hamritha
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+        body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+        to: hamrithadaya@gmail.com
+        from: Hamritha
 
 
       
