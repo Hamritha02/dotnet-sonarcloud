@@ -104,7 +104,7 @@ jobs:
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
         body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-        to: hamrithadaya@gmail.com
+        to: hamrithaanand02@gmail.com
         from: Hamritha
 
 
