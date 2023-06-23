@@ -53,7 +53,7 @@ jobs:
           python - <<EOF
           import requests
 
-          def get_sonarcloud_analysis_report(organization, project_key, token):
+          def get_sonarcloud_analysis_report(hamritha02-1, Hamritha02_Assignment, TOKEN):
               base_url = 'https://sonarcloud.io/api/'
               api_version = '8.9.0'  # Replace with the appropriate API version
 
