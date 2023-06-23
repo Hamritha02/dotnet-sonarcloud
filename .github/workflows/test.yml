@@ -48,22 +48,55 @@ jobs:
           dotnet build Solution1/UnitTest.sln
           #dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-    
-    #- name: Sonarcloud coverage
-     # run: |
-      # SonarScanner.MSBuild.exe begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-      # dotnet build Solution1/UnitTest.sln
-      # dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-      # SonarScanner.MSBuild.exe end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-       
-    #- name: Fetch result from Sonarcloud
-      #run: |
-           #curl -u SONAR_TOKEN: \
-           #"https://sonarcloud.io/api/project_analyses/search?project=Hamritha02_Assignment2&ps=1" \
-            #-H "Accept: application/json"
-             #jq -r '.' \
-             #xmlstarlet fo > sonarcloud_report.xml 
-             #pmd check -d src/xml-file.ext -f text -R ruleset.xml --force-language xml
+    - name: Retrieve SonarCloud analysis report
+      run: |
+          python - <<EOF
+          import requests
+
+          def get_sonarcloud_analysis_report(organization, project_key, token):
+              base_url = 'https://sonarcloud.io/api/'
+              api_version = 'api_version'  # Replace with the appropriate API version
+
+              # Construct the URL for the API endpoint
+              api_url = f'{base_url}{api_version}/'
+
+              # Endpoint to retrieve project analysis report
+              api_endpoint = f'project_analyses/search?project={organization}:{project_key}'
+
+              # Set the authentication token in the request header
+              headers = {'Authorization': f'Bearer {token}'}
+
+              # Make the API request
+              response = requests.get(api_url + api_endpoint, headers=headers)
+
+              if response.status_code == 200:
+                  analysis_reports = response.json()['analyses']
+                  return analysis_reports
+              else:
+                  print(f'Failed to retrieve analysis report. Status code: {response.status_code}')
+                  return None
+
+          # Set your organization, project key, and authentication token
+          organization = 'ORGANIZATION'
+          project_key = 'PROJECT_KEY'
+          token = 'your_token'
+
+          # Call the function to get the analysis reports
+          reports = get_sonarcloud_analysis_report(organization, project_key, token)
+
+          # Process the analysis reports
+          if reports:
+              for report in reports:
+                  analysis_date = report['date']
+                  analysis_key = report['key']
+                  print(f'Analysis key: {analysis_key}, Analysis date: {analysis_date}')
+          else:
+              print('No analysis reports found.')
+          EOF
+          env:
+          ORGANIZATION: hamritha02-1
+          PROJECT_KEY: Hamritha02_Assignment2
+          TOKEN: ${{ secrets.SONAR_TOKEN }}
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
@@ -91,12 +124,6 @@ jobs:
          
     - name: "Import results to Xray"
       id: push-to-xray
-       # env:
-      #   JIRA_SERVER_URL: ${{ secrets.XRAY_URL }}
-      #   JIRA_USERNAME: ${{ secrets.jira_username }}
-      #   JIRA_PASSWORD: ${{ secrets.jira_password }}
-       # JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-       # JIRA_API_TOKEN: ${{ secrets.XRAY_TOKEN }}
       shell: bash 
       run: 'curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer ${{ steps.xray-token.outputs.XRAY_TOKEN }}"  --data @"/home/runner/work/dotnet-sonarcloud/dotnet-sonarcloud/Solution1/UnitTestProject/TestResults/test-results.xml"  https://xray.cloud.getxray.app/api/v1/import/execution/xunit?projectKey=PX'
       continue-on-error: false
@@ -108,16 +135,7 @@ jobs:
           SMTP_PORT: 465
           SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
           SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-     # with:
-        # mail server settings
-        #server_address: smtp.gmail.com
-        #server_port: 465
-        #username: ${{ secrets.EMAIL_USERNAME }}
-        #password: ${{ secrets.EMAIL_PASSWORD }}
-        #subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-        #body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-        #to: hamrithaanand02@gmail.com
-        #from: Hamritha
+    
       run: |
           #echo "Subject: Workflow failed" | sendmail -v -S $SMTP_SERVER -P $SMTP_PORT -xu $SMTP_USERNAME -xp $SMTP_PASSWORD hamrithaanand02@gmail.com
           run: |
