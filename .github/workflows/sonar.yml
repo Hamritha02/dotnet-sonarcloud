@@ -58,7 +58,7 @@ jobs:
 
           # Call the function to get the analysis reports
           reports = get_sonarcloud_analysis_report(organization, project_key, token)
-
+          print("reports:", reports)
           # Process the analysis reports
           if reports:
               for report in reports:
