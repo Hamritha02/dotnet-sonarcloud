@@ -1,0 +1,72 @@
+name: SonarCloud Analysis Report
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Retrieve SonarCloud analysis report
+        run: |
+          python - <<EOF
+          import requests
+
+          def get_sonarcloud_analysis_report(organization, project_key, token):
+              base_url = 'https://sonarcloud.io/api/'
+              api_version = 'api_version'  # Replace with the appropriate API version
+
+              # Construct the URL for the API endpoint
+              api_url = f'{base_url}{api_version}/'
+
+              # Endpoint to retrieve project analysis report
+              api_endpoint = f'project_analyses/search?project={organization}:{project_key}'
+
+              # Set the authentication token in the request header
+              headers = {'Authorization': f'Bearer {token}'}
+
+              # Make the API request
+              response = requests.get(api_url + api_endpoint, headers=headers)
+
+              if response.status_code == 200:
+                  analysis_reports = response.json()['analyses']
+                  return analysis_reports
+              else:
+                  print(f'Failed to retrieve analysis report. Status code: {response.status_code}')
+                  return None
+
+          # Set your organization, project key, and authentication token
+          organization = 'hamritha02-1'
+          project_key = 'Hamritha02_Assignment2'
+          token = '${{ secrets.SONAR_TOKEN }}'
+
+          # Call the function to get the analysis reports
+          reports = get_sonarcloud_analysis_report(organization, project_key, token)
+
+          # Process the analysis reports
+          if reports:
+              for report in reports:
+                  analysis_date = report['date']
+                  analysis_key = report['key']
+                  print(f'Analysis key: {analysis_key}, Analysis date: {analysis_date}')
+          else:
+              print('No analysis reports found.')
+          EOF
+        env:
+          ORGANIZATION: hamritha02-1
+          PROJECT_KEY: Hamritha02_Assignment2
+          TOKEN: ${{ secrets.SONAR_TOKEN }}
