@@ -25,6 +25,8 @@ jobs:
         run: |
           python - <<EOF
           import requests
+          from requests.auth import HTTPBasicAuth
+          import json
 
           def get_sonarcloud_analysis_report(organization, project_key, token):
               base_url = 'https://sonarcloud.io/api/'
