@@ -36,7 +36,7 @@ jobs:
               api_url = f'{base_url}'
               print("api_url : ",api_url)
               # Endpoint to retrieve project analysis report
-              api_endpoint = f'ce/task?id=AYj2QlW39c4m0nHM29ne'
+              api_endpoint = f'project_analyses/search?project={project_key}'
               print("api_endpoint : ",api_endpoint)
               # Set the authentication token in the request header
               headers = {'Authorization': f'Bearer {token}'}
@@ -45,8 +45,8 @@ jobs:
               response = requests.get(api_url + api_endpoint, headers=headers)
               print("API request url : ",response.content)
               if response.status_code == 200:
-                  task_data = response.json()['analyses']
-                  return task_data
+                  analysis_reports = response.json()['analyses']
+                  return analysis_reports
               else:
                   print(f'Failed to retrieve analysis report. Status code: {response.status_code}')
                   return None
