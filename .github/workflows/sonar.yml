@@ -28,7 +28,7 @@ jobs:
 
           def get_sonarcloud_analysis_report(organization, project_key, token):
               base_url = 'https://sonarcloud.io/api/'
-              api_version = 'api-version-8'  # Replace with the appropriate API version
+              api_version = 'api-version-1'  # Replace with the appropriate API version
 
               # Construct the URL for the API endpoint
               api_url = f'{base_url}{api_version}/'
