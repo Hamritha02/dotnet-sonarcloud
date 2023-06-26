@@ -41,7 +41,7 @@ jobs:
 
               # Make the API request
               response = requests.get(api_url + api_endpoint, headers=headers)
-
+              print("API request url : ",response.content)
               if response.status_code == 200:
                   analysis_reports = response.json()['analyses']
                   return analysis_reports
