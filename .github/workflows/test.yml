@@ -79,6 +79,7 @@ jobs:
       run: 'curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer ${{ steps.xray-token.outputs.XRAY_TOKEN }}"  --data @"/home/runner/work/dotnet-sonarcloud/dotnet-sonarcloud/Solution1/UnitTestProject/TestResults/test-results.xml"  https://xray.cloud.getxray.app/api/v1/import/execution/xunit?projectKey=PX'
       
     - name: Send mail
+      continue-on-error: true
       if: steps.push-to-xray.outcome == 'failure'
       env:
           SMTP_SERVER: smtp.gmail.com
