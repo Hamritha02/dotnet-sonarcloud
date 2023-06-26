@@ -39,7 +39,7 @@ jobs:
               api_endpoint = f'project_analyses/search?project={organization}:{project_key}'
               print("api_endpoint : ",api_endpoint)
               # Set the authentication token in the request header
-              headers = {'Authorization': f'Bearer {token}'}
+              headers = {'Authorization': f'Bearer {4f160f5761f81dcdd6935db120b663ffb91d5d27}'}
 
               # Make the API request
               response = requests.get(api_url + api_endpoint, headers=headers)
