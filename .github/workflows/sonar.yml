@@ -45,8 +45,8 @@ jobs:
               response = requests.get(api_url + api_endpoint, headers=headers)
               print("API request url : ",response.content)
               if response.status_code == 200:
-                  analysis_reports = response.json()['analyses']
-                  return analysis_reports
+                  task_data = response.json()['analyses']
+                  return task_data
               else:
                   print(f'Failed to retrieve analysis report. Status code: {response.status_code}')
                   return None
