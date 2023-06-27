@@ -85,4 +85,4 @@ jobs:
         with:
           name: reports
           path: |
-           **    
+           **/sonarcloud_report.json    
