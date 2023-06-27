@@ -66,9 +66,9 @@ jobs:
             
           else:
             print('No analysis reports found.')
-          if report:
+          if reports:
             with open('sonarcloud_report.xml', 'wb') as file:
-              file.write(report)
+              file.write(reports)
             print('Analysis report saved to sonarcloud_report.xml.')
           else:
             print('Failed to retrieve analysis report.')
