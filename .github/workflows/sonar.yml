@@ -79,4 +79,4 @@ jobs:
         with:
           name: reports
           path: |
-           **/analalyses_reports.*    
+           **    
