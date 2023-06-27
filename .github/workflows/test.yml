@@ -41,10 +41,10 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
       run: |
-          dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" 
+          dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=coverage.xml 
           dotnet build Solution1/UnitTest.sln
-          #dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths=="**/coverage.xml"
+          /d:sonar.analysis.mode=preview /d:sonar.report.export.path=sonar-report.json
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
       #shell: pwsh
    
     - name: Test
