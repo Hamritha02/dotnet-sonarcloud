@@ -59,6 +59,12 @@ jobs:
           # Call the function to get the analysis reports
           reports = get_sonarcloud_analysis_report(organization, project_key, token)
           print("reports:", reports)
+          if reports:
+            with open('sonarcloud_report.json', 'w') as file:
+              json.dump(reports, file)
+            print('Analysis report saved to sonarcloud_report.json.')
+          else:
+            print('No analysis reports found.')
           # Process the analysis reports
           if reports:
               for report in reports:
