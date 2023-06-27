@@ -45,8 +45,13 @@ jobs:
               response = requests.get(api_url + api_endpoint, headers=headers)
               print("API request url : ",response.content)
               if response.status_code == 200:
-                  analysis_reports = response.json()['analyses']
-                  return analysis_reports
+               
+                 with open('sonarcloud_report.xml', 'wb') as file:
+                  file.write(response)
+                 print('Analysis report saved to sonarcloud_report.xml.')
+               
+                 analysis_reports = response.json()['analyses']
+                 return analysis_reports
               else:
                   print(f'Failed to retrieve analysis report. Status code: {response.status_code}')
                   return None
@@ -66,12 +71,7 @@ jobs:
             
           else:
             print('No analysis reports found.')
-          if reports:
-            with open('sonarcloud_report.xml', 'wb') as file:
-              file.write(reports)
-            print('Analysis report saved to sonarcloud_report.xml.')
-          else:
-            print('Failed to retrieve analysis report.')
+          
           # Process the analysis reports
           if reports:
               for report in reports:
