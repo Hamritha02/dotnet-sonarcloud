@@ -45,11 +45,7 @@ jobs:
               response = requests.get(api_url + api_endpoint, headers=headers)
               print("API request url : ",response.content)
               if response.status_code == 200:
-               
-                 with open('sonarcloud_report.xml', 'wb') as file:
-                  file.write(response)
-                 print('Analysis report saved to sonarcloud_report.xml.')
-               
+                                            
                  analysis_reports = response.json()['analyses']
                  return analysis_reports
               else:
