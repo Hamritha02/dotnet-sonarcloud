@@ -63,8 +63,15 @@ jobs:
             with open('sonarcloud_report.json', 'w') as file:
               json.dump(reports, file)
             print('Analysis report saved to sonarcloud_report.json.')
+            
           else:
             print('No analysis reports found.')
+          if report:
+            with open('sonarcloud_report.xml', 'wb') as file:
+              file.write(report)
+            print('Analysis report saved to sonarcloud_report.xml.')
+          else:
+            print('Failed to retrieve analysis report.')
           # Process the analysis reports
           if reports:
               for report in reports:
@@ -85,4 +92,5 @@ jobs:
         with:
           name: reports
           path: |
-           **/sonarcloud_report.json    
+           **/sonarcloud_report.json
+           **/sonarcloud_report.xml
