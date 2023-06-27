@@ -72,3 +72,11 @@ jobs:
           ORGANIZATION: hamritha02-1
           PROJECT_KEY: Hamritha02_Assignment2
           TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
+      - name: Publish Specflow Test Logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: |
+           **/analalyses_reports.*    
