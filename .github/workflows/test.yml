@@ -44,7 +44,7 @@ jobs:
           dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" 
           dotnet build Solution1/UnitTest.sln
           #dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.coverage.jacoco.xmlReportPaths="**/coverage.xml"
       #shell: pwsh
    
     - name: Test
@@ -54,9 +54,9 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: dotnet test
+        name: dotnet test report
         path: |
-          **
+          **/coverage.xml
           
     - name: Publish Specflow Test Logs
       if: always()
