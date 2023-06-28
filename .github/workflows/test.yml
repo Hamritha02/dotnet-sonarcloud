@@ -46,7 +46,7 @@ jobs:
           dotnet test Solution1/UnitTest.sln --collect "Code Coverage"
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
       #shell: pwsh
-      continue-on-error: true
+      #continue-on-error: true
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
@@ -74,7 +74,7 @@ jobs:
          
     - name: "Import results to Xray"
       id: push-to-xray
-      continue-on-error: true
+      #continue-on-error: true
       shell: bash 
       run: 'curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer ${{ steps.xray-token.outputs.XRAY_TOKEN }}"  --data @"/home/runner/work/dotnet-sonarcloud/dotnet-sonarcloud/Solution1/UnitTestProject/TestResults/test-results.xml"  https://xray.cloud.getxray.app/api/v1/import/execution/xunit?projectKey=PX'
       
