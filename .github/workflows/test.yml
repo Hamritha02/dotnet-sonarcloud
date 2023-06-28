@@ -56,7 +56,7 @@ jobs:
       with:
         name: dotnet test report
         path: |
-          **/coverage.cobertura.xml
+          **/*.Coverage
           
     - name: Publish Specflow Test Logs
       if: always()
@@ -64,7 +64,7 @@ jobs:
       with:
         name: dotnet-test
         path: |
-          **/test-results/*.xml
+          **/test-results.xml
     - name: "Get Xray Token"
       id: xray-token
       shell: bash
