@@ -1,7 +1,7 @@
 name: CI2
 
 on:
- # push:
+  push:
   workflow_dispatch:
    
 jobs:
@@ -43,8 +43,8 @@ jobs:
       run: |
           dotnet-sonarscanner begin /k:"Hamritha02_Assignment2" /o:"hamritha02-1" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" 
           dotnet build Solution1/UnitTest.sln
-          
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.report.export.path=sonar-report.json
+          dotnet test --collect "Code Coverage"
+          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
       #shell: pwsh
    
     - name: Test
@@ -56,7 +56,7 @@ jobs:
       with:
         name: dotnet test report
         path: |
-          **/coverage.xml
+          **/coverage.cobertura.xml
           
     - name: Publish Specflow Test Logs
       if: always()
@@ -64,7 +64,7 @@ jobs:
       with:
         name: dotnet-test
         path: |
-          **/test-results.xml
+          **/test-results/*.xml
     - name: "Get Xray Token"
       id: xray-token
       shell: bash
