@@ -35,6 +35,7 @@ jobs:
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet tool install --global dotnet-coverage
+        dotnet tool install -g dotnet-reportgenerator-globaltool
     - name: SonarCloud Scan
      # uses: sonarsource/sonarcloud-github-action@master
             #shell: powershell
