@@ -49,14 +49,16 @@ jobs:
       #continue-on-error: true
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
-    
-    - name: upload coverage report
-      if: always()
-      uses: actions/upload-artifact@v2
+    - name: Generate Code Coverage Report
+      run: |
+          reportgenerator "-reports:**/*.xml" \
+          "-targetdir:.buildartifacts/coveragereport" \
+          "-reporttypes:HTMLInline"
+
+    - uses: actions/upload-artifact@v2
       with:
-        name: dotnet test report
-        path: |
-          **/*.Coverage
+          name: buildartifacts
+          path: ./.buildartifacts
           
     - name: Publish Specflow Test Logs
       if: always()
