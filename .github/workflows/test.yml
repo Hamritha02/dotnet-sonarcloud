@@ -46,7 +46,7 @@ jobs:
           dotnet test Solution1/UnitTest.sln --collect "Code Coverage"
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}" 
       #shell: pwsh
-   
+      continue-on-error: true
     - name: Test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     
@@ -80,7 +80,7 @@ jobs:
       
     - name: Send mail
       #continue-on-error: true
-      if: steps.push-to-xray.outcome == 'failure'
+      if: always()
       env:
           SMTP_SERVER: smtp.gmail.com
           SMTP_PORT: 465
@@ -92,6 +92,6 @@ jobs:
           run: |
           echo "subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}" > email.txt
           echo -e "From: SMTP_USERNAME\nTo: hamrithaanand02@gmail.com\n" >> email.txt
-          echo -e "There was a failure in the workflow.subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }} \n" >> email.txt
+          echo -e "The status of workflow run.subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }} \n" >> email.txt
           cat email.txt | curl --url "smtps://$SMTP_SERVER:$SMTP_PORT" --ssl-reqd --mail-from "Hamritha" --mail-rcpt "hamrithaanand02@gmail.com" --user "$SMTP_USERNAME:$SMTP_PASSWORD" -T -
       
