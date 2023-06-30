@@ -82,6 +82,13 @@ jobs:
           PROJECT_KEY: Hamritha02_Assignment2
           TOKEN: ${{ secrets.SONAR_TOKEN }}
           
+      - name: A/B Check
+        if: ${{ envA }} != ${{ envB }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('envA and envB are not equivalent!')
+   
       - name: Publish report
         if: always()
         uses: actions/upload-artifact@v2
@@ -90,3 +97,4 @@ jobs:
           path: |
            **/sonarcloud_report.json
            **/sonarcloud_report.xml
+    
