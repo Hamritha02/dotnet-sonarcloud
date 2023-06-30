@@ -76,7 +76,7 @@ jobs:
                   print(f'Analysis key: {analysis_key}, Analysis date: {analysis_date}')
           else:
               print('No analysis reports found.')
-              exit 1 
+              sys.exit(1) 
           EOF
         env:
           ORGANIZATION: hamritha02-1
