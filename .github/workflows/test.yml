@@ -49,6 +49,7 @@ jobs:
       #shell: pwsh
       #continue-on-error: true
     - name: Test
+      id: test
       run: dotnet test $SOLUTION --configuration $BUILD_CONFIG --logger "xunit;LogFileName=test-results.xml" || true
     - name: Generate Code Coverage Report
       run: |
@@ -82,7 +83,7 @@ jobs:
       continue-on-error: true
       
     - name: Fail the build if tests fail
-      if: steps.push-to-xray.outcome == 'failure'
+      if: steps.test.outcome == 'success'
       run: exit 1
       
     - name: Send mail
