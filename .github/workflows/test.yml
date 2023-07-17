@@ -83,7 +83,7 @@ jobs:
       continue-on-error: true
       
     - name: Fail the build if tests fail
-      if: steps.test.outcome == 'success'
+      if: steps.test.outcome == 'failure'
       run: exit 1
       
     - name: Send mail
